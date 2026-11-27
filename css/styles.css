@@ -471,3 +471,13 @@ a.dl__cover:hover img { transform: translateY(-4px); }
 
 .site-footer__email { font-family: var(--font-head); font-weight: 600; font-size: 12px; letter-spacing: 0.08em; color: var(--text-light-dim); text-decoration: none; }
 .site-footer__email:hover { color: var(--gold); }
+
+/* Keep the 7-item menu on one line on mid-size screens */
+@media (min-width: 761px) and (max-width: 1180px) {
+  .site-nav { gap: 8px 22px; }
+  .site-nav a { font-size: 12px; letter-spacing: 0.12em; }
+}
+@media (min-width: 761px) and (max-width: 900px) {
+  .site-nav { gap: 6px 16px; }
+  .site-nav a { font-size: 11px; letter-spacing: 0.08em; }
+}
