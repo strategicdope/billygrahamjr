@@ -487,3 +487,17 @@ a.dl__cover:hover img { transform: translateY(-4px); }
 .inbox-tip__title { display: block; margin-bottom: 6px; font-family: var(--font-head); font-weight: 800; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
 .inbox-tip p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-light); }
 .inbox-tip strong { color: var(--white); }
+
+/* Contact form popup (reuses .signup styles) */
+.signup__panel--wide { width: min(680px, 100%); }
+.contact-form__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
+.contact-form__field { display: flex; flex-direction: column; gap: 8px; }
+.contact-form__msg { min-height: 110px; resize: vertical; line-height: 1.5; font-family: var(--font-body); }
+select.signup__input { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--gold) 50%), linear-gradient(135deg, var(--gold) 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 40px; }
+.contact-form__honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.contact-form__done { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 8px 0; }
+.contact-form__done:focus { outline: none; }
+.contact-form__done-text { margin: 0; font-size: 16px; line-height: 1.6; color: var(--text-light); }
+.signup__submit:disabled { opacity: 0.7; cursor: wait; }
+@media (max-width: 680px) { .contact-form__row { grid-template-columns: minmax(0, 1fr); } }
+.contact-form__done[hidden], .contact-form__view[hidden], [data-contact-error][hidden] { display: none; }

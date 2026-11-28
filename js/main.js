@@ -82,3 +82,57 @@ document.querySelectorAll('[data-year]').forEach(function (el) {
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) close(); });
   if (location.hash === '#get') open();
 })();
+
+// Contact BG popup: opens from any [data-open-contact] button (or #inquire in the address)
+// and sends through FormSubmit's AJAX endpoint so visitors stay on the page.
+(function () {
+  var modal = document.getElementById('inquire');
+  if (!modal) return;
+  var form = modal.querySelector('[data-contact-form]');
+  var view = modal.querySelector('[data-contact-form-view]');
+  var done = modal.querySelector('[data-contact-done]');
+  var err = modal.querySelector('[data-contact-error]');
+  var btn = modal.querySelector('[data-contact-submit]');
+  var opener = null;
+  function open(e) {
+    if (e) { e.preventDefault(); opener = e.currentTarget; }
+    modal.hidden = false;
+    document.body.classList.add('modal-open');
+    var first = modal.querySelector('input:not([type=hidden]):not(.contact-form__honey)');
+    if (first && !view.hidden) first.focus();
+  }
+  function close() {
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+    if (location.hash === '#inquire') history.replaceState(null, '', location.pathname);
+    if (!done.hidden) { form.reset(); done.hidden = true; view.hidden = false; }
+    if (opener) opener.focus();
+  }
+  document.querySelectorAll('[data-open-contact]').forEach(function (b) { b.addEventListener('click', open); });
+  modal.querySelectorAll('[data-close-contact]').forEach(function (b) { b.addEventListener('click', close); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) close(); });
+  if (location.hash === '#inquire') open();
+
+  form.addEventListener('submit', function (e) {
+    if (!window.fetch || !window.FormData) return; // falls back to a normal form post
+    e.preventDefault();
+    err.hidden = true;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    var data = new FormData(form);
+    data.append('_replyto', data.get('email') || '');
+    fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: data
+    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (!res.ok || String(res.j.success) === 'false') throw new Error(res.j.message || 'send failed');
+        view.hidden = true;
+        done.hidden = false;
+        done.focus();
+      })
+      .catch(function () { err.hidden = false; })
+      .then(function () { btn.disabled = false; btn.textContent = 'Send inquiry'; });
+  });
+})();
