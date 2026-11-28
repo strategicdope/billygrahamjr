@@ -481,3 +481,9 @@ a.dl__cover:hover img { transform: translateY(-4px); }
   .site-nav { gap: 6px 16px; }
   .site-nav a { font-size: 11px; letter-spacing: 0.08em; }
 }
+
+/* Thank-you page: inbox tip */
+.inbox-tip { max-width: 560px; padding: 18px 20px; border: 1px solid var(--gold); border-left: 4px solid var(--gold); background: rgba(201,164,92,0.08); }
+.inbox-tip__title { display: block; margin-bottom: 6px; font-family: var(--font-head); font-weight: 800; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+.inbox-tip p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-light); }
+.inbox-tip strong { color: var(--white); }
